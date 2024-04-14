@@ -44,7 +44,7 @@ body, html {
     margin-bottom: 10px;
     padding: 10px;
     border-radius: 8px;
-    color: white;
+    color: rgb(12, 28, 137);
     max-width: 80%; /* Limiting maximum width */
 }
 
