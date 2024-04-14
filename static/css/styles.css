@@ -1,0 +1,166 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #34495e; /* Dark blue background */
+}
+
+.interface-container {
+    display: flex;
+    height: 100vh; /* Use full view height */
+}
+
+.sidebar {
+    width: 300px;
+    background-color: #6b94c0;
+    color: white;
+    padding: 40px 20px 20px 20px; /* Added upper padding */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center align the content */
+}
+
+.sidebar h3 {
+    color: white; /* Make the text white */
+}
+
+.chat-container {
+    flex-grow: 1; /* Allows chat container to fill available space */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Space between chat and input */
+}
+
+.chat {
+    overflow-y: auto;
+    background-color: #fff; /* Keeping chat white for readability */
+    border-radius: 8px;
+    flex-grow: 1; /* Make chat box grow to fill space */
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.chat-message {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    color: white;
+    max-width: 80%; /* Limiting maximum width */
+}
+
+.user-message {
+    background-color: #003366; /* Dark navy blue for user */
+    margin-left: auto; /* Aligns to the right */
+}
+
+.bot-message {
+    background-color: #336699; /* Lighter navy blue for bot */
+    margin-right: auto; /* Aligns to the left */
+}
+
+#messageInput, #sendBtn {
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 10px; /* Space above input and button */
+}
+
+#messageInput {
+    border: 1px solid #ccc;
+    flex: 1; /* Allow input to fill space */
+}
+
+#sendBtn {
+    width: 80px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    cursor: pointer; /* Change cursor on hover */
+}
+
+#sendBtn:hover {
+    background-color: #2980b9;
+}
+
+#sendBtn {
+    width: 80px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    cursor: pointer; /* Change cursor on hover */
+}
+
+#sendBtn:hover {
+    background-color: #2980b9;
+}
+
+.footer {
+    display: flex;
+}
+
+.content {
+    display: flex;
+    flex-grow: 1;
+    padding: 20px;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content > h2 {
+    text-align: center;
+    color: white;
+}
+
+.model-viewer {
+    height: 100%; /* Adjust the height as needed */
+    width: 100%; /* Ensure the model viewer takes up full width */
+    border-radius: 8px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+}
+
+.icon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center icons vertically */
+    justify-content: start; /* Align icons to start */
+    padding: 10px;
+    width: fit-content; /* This will make sure the container only takes as much space as needed */
+    margin-top: 15%; /* Adjust this value as needed */
+}
+
+.icon-container img {
+    margin: 50%; /* Margin between icons */
+    width: 48px; /* Fixed width for icons */
+    height: auto; /* Maintain aspect ratio */
+    cursor: pointer; /* Change cursor on hover */
+}
+
+.sidebar-icons {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 80px; /* Adjust the width as needed */
+    background-color: #b4b4c9;
+    padding-top: 20px;
+}
+
+.sidebar-icons object {
+    color: #fff;
+    display: block;
+    margin: 10px auto;
+    width: 40px; /* Adjust the size as needed */
+    height: 40px; /* Adjust the size as needed */
+    filter: invert(100%); /* Ensures the icons are white */
+    transition: transform 0.3s, filter 0.3s; /* Smooth transition for transform and color */
+}
+
+.sidebar-icons object:hover {
+    filter: invert(43%) sepia(89%) saturate(3500%) hue-rotate(181deg) brightness(92%) contrast(91%);
+    /* Changes to blue on hover */
+}
+
+.sidebar-icons object:active {
+    transform: translateY(-2px) scale(1.1);  /* Moves up slightly and expands */
+}

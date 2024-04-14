@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cordoba</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="interface-container">
+        <div class="sidebar">
+            <h3>Chat Area</h3>
+            <div class="chat-container">
+                <div class="chat" id="chat">
+                    <!-- Chat messages will appear here -->
+                </div>
+                <div class="footer">
+                    <input type="text" id="messageInput" placeholder="Enter text" required>
+                    <button id="sendBtn">Generate</button>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <h2>Cordoba</h2>
+            <div id="voxelPlot" class="model-viewer">
+                <!-- 3D Model Will Go Here -->
+            </div>
+        </div>       
+    </div>
+    <div class="sidebar-icons">
+        <!-- <object type="image/svg+xml" data="/static/icons/2.svg"></object> -->
+        <!-- <object type="image/svg+xml" data="/static/icons/5.svg"></object>  -->
+        <!-- <object type="image/svg+xml" data="/static/icons/7.svg"></object> -->
+        <object type="image/svg+xml" data="/static/icons/download.svg"></object>
+        <object type="image/svg+xml" data="/static/icons/house_off.svg"></object>
+        <object type="image/svg+xml" data="/static/icons/landscape_off.svg"></object>
+        <object type="image/svg+xml" data="/static/icons/map_off.svg"></object>
+    </div>
+    <script>
+document.addEventListener("DOMContentLoaded", function() {
+    var sendBtn = document.getElementById('sendBtn');
+    var messageInput = document.getElementById('messageInput');
+    var chatArea = document.getElementById('chat');
+
+    // Append messages to the chat area with dynamic class assignment for styling
+    function appendMessageToChat(message, sender) {
+        var chatMessage = document.createElement('div');
+        chatMessage.className = 'chat-message ' + (sender === 'user' ? 'user-message' : 'bot-message');
+        chatMessage.textContent = message;
+        chatArea.appendChild(chatMessage);
+        chatArea.scrollTop = chatArea.scrollHeight; // Automatically scroll to the latest message
+    }
+
+    sendBtn.addEventListener('click', function() {
+        console.log("Button clicked");
+        var message = messageInput.value.trim();
+        if (message) {
+            appendMessageToChat(message, 'user'); // Display the user's message in the chat area
+            appendMessageToChat("Making Request", 'bot'); // Indicate that the request is being made
+
+            fetch('/generate-voxel', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'text=' + encodeURIComponent(message)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok: ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                appendMessageToChat("Data Returned", 'bot'); // Confirm data receipt
+                console.log("Received data:", data); // Log the received data
+
+                Plotly.purge('voxelPlot'); // Clear the existing Plotly graph
+                var meshData = generateMeshData(data.points); // Generate new mesh data from received points
+                Plotly.newPlot('voxelPlot', [meshData], layout); // Render new Plotly graph
+
+                appendMessageToChat("Building Model", 'bot'); // Indicate model construction in UI
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                appendMessageToChat("Error: " + error.message, 'bot'); // Display any error messages
+            });
+            messageInput.value = ''; // Clear the input field after sending
+        } else {
+            console.error('Message input is empty.');
+            appendMessageToChat("Please enter a message.", 'bot'); // Prompt the user if input is empty
+        }
+    });
+</script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</body>
+</html>
