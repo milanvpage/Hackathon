@@ -35,62 +35,7 @@
         <object type="image/svg+xml" data="/static/icons/landscape_off.svg"></object>
         <object type="image/svg+xml" data="/static/icons/map_off.svg"></object>
     </div>
-    <script>
-document.addEventListener("DOMContentLoaded", function() {
-    var sendBtn = document.getElementById('sendBtn');
-    var messageInput = document.getElementById('messageInput');
-    var chatArea = document.getElementById('chat');
-
-    // Append messages to the chat area with dynamic class assignment for styling
-    function appendMessageToChat(message, sender) {
-        var chatMessage = document.createElement('div');
-        chatMessage.className = 'chat-message ' + (sender === 'user' ? 'user-message' : 'bot-message');
-        chatMessage.textContent = message;
-        chatArea.appendChild(chatMessage);
-        chatArea.scrollTop = chatArea.scrollHeight; // Automatically scroll to the latest message
-    }
-
-    sendBtn.addEventListener('click', function() {
-        console.log("Button clicked");
-        var message = messageInput.value.trim();
-        if (message) {
-            appendMessageToChat(message, 'user'); // Display the user's message in the chat area
-            appendMessageToChat("Making Request", 'bot'); // Indicate that the request is being made
-
-            fetch('/generate-voxel', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: 'text=' + encodeURIComponent(message)
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok: ' + response.statusText);
-                }
-                return response.json();
-            })
-            .then(data => {
-                appendMessageToChat("Data Returned", 'bot'); // Confirm data receipt
-                console.log("Received data:", data); // Log the received data
-
-                Plotly.purge('voxelPlot'); // Clear the existing Plotly graph
-                var meshData = generateMeshData(data.points); // Generate new mesh data from received points
-                Plotly.newPlot('voxelPlot', [meshData], layout); // Render new Plotly graph
-
-                appendMessageToChat("Building Model", 'bot'); // Indicate model construction in UI
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                appendMessageToChat("Error: " + error.message, 'bot'); // Display any error messages
-            });
-            messageInput.value = ''; // Clear the input field after sending
-        } else {
-            console.error('Message input is empty.');
-            appendMessageToChat("Please enter a message.", 'bot'); // Prompt the user if input is empty
-        }
-    });
-</script>
+    <script src="/static/frontend.js"></script>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </body>
 </html>
