@@ -3,6 +3,8 @@ import requests
 import json
 import numpy as np
 from sklearn.decomposition import PCA
+from config import API_ENDPOINT
+print(API_ENDPOINT)
 
 app = Flask(__name__)
 
@@ -16,7 +18,7 @@ def generate_voxel():
     text_input = request.form['text']
     print("Received text input:", text_input)  # Debugging statement
 
-    url = 'http://18.226.164.130/generate_output' # change to 18.226.164.130
+    url = API_ENDPOINT # change to 18.226.164.130
     payload = {"text": text_input, "output_format": "voxel_grid", "angle": 90}
     print("Calling API...")  # Debugging statement
     try:
