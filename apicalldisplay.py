@@ -18,7 +18,7 @@ def generate_voxel():
     text_input = request.form['text']
     print("Received text input:", text_input)  # Debugging statement
 
-    url = API_ENDPOINT # change to 18.226.164.130
+    url = API_ENDPOINT
     payload = {"text": text_input, "output_format": "voxel_grid", "angle": 90}
     print("Calling API...")  # Debugging statement
     try:
